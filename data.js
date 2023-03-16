@@ -1,4 +1,6 @@
-const data = [
+const fs = require("fs");
+
+const dataIds = [
   {
     id: "64136edbd34a07a723ffe2fb",
   },
@@ -928,7 +930,7 @@ const northAmericaNames = [
   "Panama",
 ];
 
-const centralSouthAmericanNames = [
+const centralSouthAmericaNames = [
   "Argentina",
   "Bolivia",
   "Brazil",
@@ -1046,7 +1048,7 @@ const asiaNames = [
   "Zil Elwannyen Sesel (Aldabra, Amirante Islands, Farquhar)",
 ];
 
-const europeanNames = [
+const europeNames = [
   "Aland Islands",
   "Albania",
   "Andorra",
@@ -1175,16 +1177,126 @@ const africaNames = [
   "Zimbabwe",
 ];
 
-const seasons = ["summer", "winter", "autumn", "spring"];
-const occaions = ["stag", "honeymoon", "girls", "family"];
+console.log(dataIds.length);
 
-console.log(data.length);
+// add continent to each array and make object
+
+const africaObj = africaNames.map((place) => {
+  const newObj = {
+    name: place,
+    continent: "africa",
+  };
+  return newObj;
+});
+
+const europeObj = europeNames.map((place) => {
+  const newObj = {
+    name: place,
+    continent: "europe",
+  };
+  return newObj;
+});
+
+const asiaObj = asiaNames.map((place) => {
+  const newObj = {
+    name: place,
+    continent: "asia",
+  };
+  return newObj;
+});
+
+const northAmericaObj = northAmericaNames.map((place) => {
+  const newObj = {
+    name: place,
+    continent: "north-america",
+  };
+  return newObj;
+});
+
+const centralSouthAmericaObj = centralSouthAmericaNames.map((place) => {
+  const newObj = {
+    name: place,
+    continent: "south-america",
+  };
+  return newObj;
+});
+
+const oceaniaObj = oceaniaNames.map((place) => {
+  const newObj = {
+    name: place,
+    continent: "oceania",
+  };
+  return newObj;
+});
+
+// ------- concatinate continent obj arrays
+
+const allObjs = africaObj.concat(
+  europeObj,
+  asiaObj,
+  northAmericaObj,
+  centralSouthAmericaObj,
+  oceaniaObj
+);
+
+// console.log(allObjs);
+
+// ---- function to get random season
+const seasons = ["summer", "winter", "autumn", "spring"];
+
+const randomSeason = () => {
+  return seasons[Math.floor(Math.random() * seasons.length)];
+};
+
+const objWithSeason = allObjs.map((obj) => {
+  const seasonObj = {
+    ...obj,
+    season: randomSeason(),
+  };
+
+  return seasonObj;
+});
+
+// ----- function to get random occasion
+const occasions = ["stag", "honeymoon", "girls", "family"];
+
+const randomOccasion = () => {
+  return occasions[Math.floor(Math.random() * occasions.length)];
+};
+
+const objWithOccasion = objWithSeason.map((obj) => {
+  const occasionObj = {
+    ...obj,
+    occasion: randomOccasion(),
+  };
+  return occasionObj;
+});
+
+const data = objWithOccasion.map((obj, i) => {
+  const finalObj = {
+    ...obj,
+    ...dataIds[i],
+  };
+  return finalObj;
+});
+
+// console.log(data[0]);
+console.log(data[1]);
+console.log(data[2]);
+console.log(data[data.length - 1]);
 
 console.log(
   africaNames.length +
-    europeanNames.length +
+    europeNames.length +
     asiaNames.length +
-    centralSouthAmericanNames.length +
+    centralSouthAmericaNames.length +
     northAmericaNames.length +
     oceaniaNames.length
 );
+
+fs.writeFile("./data/destinations.json", JSON.stringify(data), (err) => {
+  if (err) {
+    console.log(err);
+  }
+  console.log("file saved");
+});
