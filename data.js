@@ -1272,7 +1272,86 @@ const objWithOccasion = objWithSeason.map((obj) => {
   return occasionObj;
 });
 
-const data = objWithOccasion.map((obj, i) => {
+// add activities to items
+
+const activities = [
+  "Relax on the beach",
+  "Go on a scenic hike",
+  "Visit historical sites and museums",
+  "Explore local markets and shops",
+  "Try new and exotic foods",
+  "Go on a wildlife safari",
+  "Participate in water sports such as surfing or snorkeling",
+  "Take a scenic boat tour",
+  "Attend cultural events and festivals",
+  "Enjoy a spa day and indulge in self-care",
+];
+
+const randomActivities = () => {
+  const newArr = [
+    activities[Math.floor(Math.random() * activities.length)],
+    activities[Math.floor(Math.random() * activities.length)],
+    activities[Math.floor(Math.random() * activities.length)],
+  ];
+  return newArr;
+};
+
+const objWithActivity = objWithOccasion.map((obj) => {
+  const newObj = {
+    ...obj,
+    activities: randomActivities(),
+  };
+  return newObj;
+});
+
+// ---- add comments to each obj
+
+const comments = [
+  {
+    name: "Harry Potter",
+    comment:
+      "Was a great trip, Ron and I made unforgetable memories, 10/10 reccomend!",
+    timestamp: Date.now(),
+    id: "1",
+  },
+  {
+    name: "Gandalf",
+    comment: "Fly you Fools! this trip was more fun than defending Gondor!",
+    timestamp: Date.now(),
+    id: "2",
+  },
+  {
+    name: "Kanye West",
+    comment: "Yeah great trip, buy by my new album please!",
+    timestamp: Date.now(),
+    id: "3",
+  },
+];
+
+const objWithComments = objWithActivity.map((obj) => {
+  const newObj = {
+    ...obj,
+    comments: comments,
+  };
+  return newObj;
+});
+
+// ----- add description
+
+const description =
+  "Located in the heart of the city, this vibrant neighborhood boasts a lively atmosphere with bustling cafes, colorful street art, and eclectic shops. The area is known for its lively nightlife, attracting visitors from all over the world to experience the energy and excitement of the local scene.";
+
+const objWithDescription = objWithComments.map((obj) => {
+  const newObj = {
+    ...obj,
+    description: description,
+  };
+  return newObj;
+});
+
+// ----- final data
+
+const data = objWithDescription.map((obj, i) => {
   const finalObj = {
     ...obj,
     ...dataIds[i],
